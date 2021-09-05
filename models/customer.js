@@ -11,13 +11,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.hasMany(models.Course, {
+        foreignKey: 'customer_id',
+        as: 'details'
+      });
     }
   };
   Customer.init({
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    address: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Customer',
+    tableName: 'customers'
   });
   return Customer;
 };
