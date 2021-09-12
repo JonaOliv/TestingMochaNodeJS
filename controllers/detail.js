@@ -3,6 +3,22 @@
 const Detail = require('../models').Detail;
 
 module.exports = {
+  addOrder(req, res) {
+    var listInterests = req.body.listInterests;
+    return Order.bulkCreate(listInterests, { updateOnDuplicate: ['amount', 'update_at'] })
+      .then((orders) => res.status(201).send(orders))
+      .catch((error) => res.status(400).send(error));
+  },
+  listDetails(req, res) {
+    return Detail
+      .findAll({
+        where: {
+          customer_id: req.params.customer_id
+        }
+      })
+      .then((Details) => res.status(200).send(Details))
+      .catch((error) => { res.status(400).send(error); });
+  },
   list(req, res) {
     return Detail
       .findAll({})
